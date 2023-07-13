@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Set your name and the directory where the files will be created
+yourName="JohnDoe"
+directory="/path/to/files/directory"
+
+# Find the last or maximum number that already exists in the directory
+lastNumber=$(ls -1 "$directory" | grep -E "^${yourName}[0-9]+" | sed "s/^${yourName}//" | sort -nr | head -n 1)
+
+# If no existing files found, start with 0
+if [ -z "$lastNumber" ]; then
+  lastNumber=0
+fi
+
+# Calculate the starting number for the new batch of files
+startNumber=$((lastNumber + 1))
+
+# Create 25 empty files with increasing numbers
+for ((i = startNumber; i <= startNumber + 24; i++)); do
+  fileName="${yourName}${i}"
+  touch "$directory/$fileName"
+done
+
+echo "Created 25 empty files with names starting from ${yourName}${startNumber}."
